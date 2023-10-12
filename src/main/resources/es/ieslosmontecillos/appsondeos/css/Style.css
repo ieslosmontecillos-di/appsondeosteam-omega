@@ -1,0 +1,40 @@
+#iniciaEncuesta{
+    -fx-font-size: 20px;
+}
+
+#errorCategoria{
+    -fx-fill: red;
+}
+
+.stage{
+    -fx-border-color: red;
+}
+
+#bienvenida{
+    -fx-text-alignment: center;
+}
+
+#categorias{
+    -fx-font-size:20px;
+}
+
+.label{
+    -fx-font-family: "Yu Gothic";
+}
+
+.root{
+    -fx-background-image: url("../img/background2.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.button{
+    -fx-effect: dropshadow(three-pass-box,grey,10,0,5,5);
+}
+.button:hover {
+    -fx-cursor: hand;
+}
+
+.choice-box{
+    -fx-alignment: center;
+}
