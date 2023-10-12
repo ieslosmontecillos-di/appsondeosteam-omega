@@ -2,42 +2,91 @@ package es.ieslosmontecillos.appsondeos;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 
 public class Comida extends Tab {
 
-    private VBox root = new VBox();
-    private Label preguntaFL = new Label("¿Con qué frecuencia lees?");
-    private ChoiceBox frecuenciaLectura = new ChoiceBox();
-    private Label preguntaTL = new Label("¿Qué tipo de lectura te gusta más?");
-    private ChoiceBox tipoLectura = new ChoiceBox();
-    private Label preguntaTF = new Label("¿Qué obra que hayas leído te ha gustado más?");
-    private TextField tituloFavorito = new TextField();
-    private Label preguntaNO = new Label("¿Cuántaas obras literarias te has leído?");
-    private TextField numObras = new TextField();
-    private Label preguntaIL = new Label("¿Cuál fue el motivo principal de tu interés por la lectura?");
-    private ChoiceBox interesLectura = new ChoiceBox();
+    private GridPane root = new GridPane();
+    private Label preguntaC = new Label("¿Te gusta comer?");
+    private ToggleGroup gutsoComer = new ToggleGroup();
+    private RadioButton siComer = new RadioButton("Si");
+    private RadioButton noComer = new RadioButton("No");
+    private Label preguntaTC = new Label("¿Qué tipo de comida te gusta más?");
+    private ChoiceBox tipoComida = new ChoiceBox();
+    private Label preguntaCF = new Label("¿Cuál es tu comida favorita?");
+    private TextField comidaFavorita = new TextField();
+    private Label preguntaDE = new Label("¿Mantienes una dieta equilibrada?");
+    private ToggleGroup dietaEquilibrada = new ToggleGroup();
+    private RadioButton siDieta = new RadioButton("Si");
+    private RadioButton noDieta = new RadioButton("No");
+    private Label preguntaCC = new Label("¿Cuánta cantidad de comida sueles comer?");
+    private ChoiceBox cantidadComida = new ChoiceBox();
+    private Label preguntaIntolerancia = new Label("¿Eres intolerante a algún alimento/nutriente? (ej. lactosa o cacahuete)");
+    private ToggleGroup intolera = new ToggleGroup();
+    private RadioButton intolerancia = new RadioButton("Si");
+    private RadioButton tolerancia = new RadioButton("No");
+    private Label intoleranciaConcreta = new Label("¿A qué eres intolerante?");
+    private TextField intolerante = new TextField();
+    private Button enviarEncuesta = new Button("Enviar");
 
-    ObservableList<String> fLectura = FXCollections.observableArrayList("Todos los días", "Más de 4 veces a la semana", "2 o 3 veces a la semana", "1 vez a la semana");
-    ObservableList<String> tLectura = FXCollections.observableArrayList("Cómics", "Novelas", "Poemas", "Cuentos", "Enciclopedias", "Diccionarios", "Biografías", "Libros de divulgación científica", "Libros de fotografía");
-    ObservableList<String> iLectura = FXCollections.observableArrayList("Recomendación de amigos/familiares", "Interés propio");
+    ObservableList<String> tComida = FXCollections.observableArrayList("Fruta", "Verdura", "Carne", "Pescado", "Legumbres", "Frituras", "Frutos secos");
+    ObservableList<String> cComida = FXCollections.observableArrayList("Mucho", "Normal", "Poco", "Casi nada");
 
     public Comida(){
         makeGUI();
     }
 
     private void makeGUI(){
-        frecuenciaLectura.setValue("Ninguna vez");
-        tipoLectura.setValue("Otro");
-        interesLectura.setValue("No me acuerdo");
 
-        frecuenciaLectura.setItems(fLectura);
-        root.getChildren().add(preguntaFL);
-        root.getChildren().add(frecuenciaLectura);
+        tipoComida.setItems(tComida);
+        cantidadComida.setItems(cComida);
+
+        siComer.setToggleGroup(gutsoComer);
+        noComer.setToggleGroup(gutsoComer);
+
+        siDieta.setToggleGroup(dietaEquilibrada);
+        noDieta.setToggleGroup(dietaEquilibrada);
+
+        intolerancia.setToggleGroup(intolera);
+        tolerancia.setToggleGroup(intolera);
+
+        root.add(preguntaC,0,0);
+        root.add(siComer,1,0);
+        root.add(noComer,2,0);
+        root.add(preguntaTC,0,1);
+        root.add(tipoComida,1,1);
+        root.add(preguntaCF,0,2);
+        root.add(comidaFavorita,1,2);
+        root.add(preguntaDE,0,3);
+        root.add(siDieta,1,3);
+        root.add(noDieta,2,3);
+        root.add(preguntaCC,0,4);
+        root.add(cantidadComida,1,4);
+        root.add(preguntaIntolerancia,0,5);
+        root.add(intolerancia,1,5);
+        root.add(tolerancia,2,5);
+        root.add(intoleranciaConcreta,0,6);
+        root.add(intolerante,1,6);
+        root.add(enviarEncuesta,1,7);
+
+        enviarEncuesta.setOnAction(e->{
+            if(!intolera.getSelectedToggle().isSelected() || intolera.getSelectedToggle().equals(tolerancia)){
+                intoleranciaConcreta.setVisible(false);
+                intolerante.setVisible(false);
+            }else{
+                intoleranciaConcreta.setVisible(true);
+                intolerante.setVisible(true);
+            }
+        });
+
+        intoleranciaConcreta.setVisible(false);
+        intolerante.setVisible(false);
+
+        root.setAlignment(Pos.BASELINE_CENTER);
+        root.setHgap(10);
+        root.setVgap(10);
 
         setText("Comida");
         setClosable(false);

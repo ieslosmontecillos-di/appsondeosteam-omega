@@ -31,10 +31,16 @@
 .button{
     -fx-effect: dropshadow(three-pass-box,grey,10,0,5,5);
 }
+
 .button:hover {
     -fx-cursor: hand;
 }
 
-.choice-box{
-    -fx-alignment: center;
+.choice-box .arrow{
+    -fx-padding: 0;
+    -fx-shape: "";
+}
+
+.tab-pane{
+
 }
