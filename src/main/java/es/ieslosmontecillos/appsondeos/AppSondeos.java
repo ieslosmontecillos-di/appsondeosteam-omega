@@ -8,7 +8,6 @@ package es.ieslosmontecillos.appsondeos;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -17,6 +16,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  *
@@ -80,34 +82,42 @@ public class AppSondeos extends Application {
             // Convierte a String el valor seleccionado en el ChoiceBox de encuestas para que funcione el switch
             String selecEnc = seleccionEncuesta.getValue().toString();
 
-            switch(selecEnc){
-                case "Animal":
-                    root.setCenter(seccionesEncuesta);
-                    selectionModel.select(0);
-                    break;
+            // Recoge el nombre del usuario para
+            String nombreUsuario = txtNombre.getText();
+            if(!selecEnc.equals("Introduzca una categoría")) {
+                try {
+                    FileWriter encuestaCsv = new FileWriter("Enc" + selecEnc + nombreUsuario, true);
+                    switch (selecEnc) {
+                        case "Animal":
+                            root.setCenter(seccionesEncuesta);
+                            selectionModel.select(0);
+                            break;
 
-                case "Comida":
-                    root.setCenter(seccionesEncuesta);
-                    selectionModel.select(1);
-                    break;
+                        case "Comida":
+                            root.setCenter(seccionesEncuesta);
+                            selectionModel.select(1);
+                            break;
 
-                case "Deporte":
-                    root.setCenter(seccionesEncuesta);
-                    selectionModel.select(2);
-                    break;
+                        case "Deporte":
+                            root.setCenter(seccionesEncuesta);
+                            selectionModel.select(2);
+                            break;
 
-                case "Lectura":
-                    root.setCenter(seccionesEncuesta);
-                    selectionModel.select(3);
-                    break;
+                        case "Lectura":
+                            root.setCenter(seccionesEncuesta);
+                            selectionModel.select(3);
+                            break;
 
-                case "Viajes":
-                    root.setCenter(seccionesEncuesta);
-                    selectionModel.select(4);
-                    break;
-
-                default:
-                    txtErrorCategoria.setVisible(true);
+                        case "Viajes":
+                            root.setCenter(seccionesEncuesta);
+                            selectionModel.select(4);
+                            break;
+                    }
+                }catch (IOException err){
+                    err.printStackTrace();
+                }
+            }else{
+                txtErrorCategoria.setVisible(true);
             }
 
         });
@@ -154,17 +164,6 @@ public class AppSondeos extends Application {
         launch(args);
     }
 
-    public static void delay(long millis, Runnable continuation) {
-        Task<Void> sleeper = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                try { Thread.sleep(millis); }
-                catch (InterruptedException e) { }
-                return null;
-            }
-        };
-        sleeper.setOnSucceeded(event -> continuation.run());
-        new Thread(sleeper).start();
-    }
+
     
 }

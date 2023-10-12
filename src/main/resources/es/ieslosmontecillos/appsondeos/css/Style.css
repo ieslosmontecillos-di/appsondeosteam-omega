@@ -35,12 +35,3 @@
 .button:hover {
     -fx-cursor: hand;
 }
-
-.choice-box .arrow{
-    -fx-padding: 0;
-    -fx-shape: "";
-}
-
-.tab-pane{
-
-}
