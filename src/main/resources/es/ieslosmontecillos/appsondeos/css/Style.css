@@ -1,0 +1,48 @@
+/* IDs */
+
+#iniciaEncuesta{
+    -fx-font-size: 20px;
+}
+
+#errorCategoria{
+    -fx-fill: red;
+}
+
+#bienvenida{
+    -fx-text-alignment: center;
+    -fx-font-size: 50px;
+}
+
+#categorias{
+    -fx-font-size:20px;
+}
+
+
+/* Nodos */
+
+.stage{
+    -fx-border-color: red;
+}
+
+.label{
+    -fx-font-family: "Yu Gothic";
+}
+
+.root{
+    -fx-background-image: url("../img/background2.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.button{
+    -fx-effect: dropshadow(three-pass-box,black,10,0,5,5);
+}
+
+.button:hover {
+    -fx-cursor: hand;
+}
+
+.button:pressed{
+    -fx-background-color: red;
+    -fx-effect: dropshadow(three-pass-box,black,10,0,0,0);
+}
