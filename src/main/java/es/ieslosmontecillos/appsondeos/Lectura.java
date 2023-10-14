@@ -4,21 +4,35 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+
+import java.io.FileWriter;
 
 public class Lectura extends Tab {
 
     private GridPane root = new GridPane();
+
+    private FileWriter csvEncuesta;
+
+    // Preguntas de la encuesta
     private Label preguntaFL = new Label("¿Con qué frecuencia lees?");
     private ChoiceBox frecuenciaLectura = new ChoiceBox();
+
     private Label preguntaTL = new Label("¿Qué tipo de lectura te gusta más?");
     private ChoiceBox tipoLectura = new ChoiceBox();
+
     private Label preguntaTF = new Label("¿Qué obra que hayas leído te ha gustado más?");
     private TextField tituloFavorito = new TextField();
+
     private Label preguntaNO = new Label("¿Cuántas obras literarias te has leído?");
     private TextField numObras = new TextField();
+
     private Label preguntaIL = new Label("¿Cuál fue el motivo principal de tu interés por la lectura?");
     private ChoiceBox interesLectura = new ChoiceBox();
+
+    // Botonera
+    private GridPane botonera = new GridPane();
     private Button cancelaEncuesta = new Button("Cancelar");
     private Button enviarEncuesta = new Button("Enviar");
 
@@ -46,8 +60,12 @@ public class Lectura extends Tab {
         root.add(tituloFavorito,3,4);
         root.add(preguntaNO,1,5);
         root.add(numObras,3,5);
-        root.add(cancelaEncuesta,2,6);
-        root.add(enviarEncuesta,3,6);
+        root.add(botonera,3,6);
+
+        botonera.add(cancelaEncuesta,0,0);
+        botonera.add(enviarEncuesta,1,0);
+
+        botonera.setHgap(10);
 
         root.setVgap(10);
         root.setHgap(10);
@@ -91,4 +109,7 @@ public class Lectura extends Tab {
         setContent(root);
     }
 
+    public void setCsvEncuesta(FileWriter csv){
+        csvEncuesta = csv;
+    }
 }

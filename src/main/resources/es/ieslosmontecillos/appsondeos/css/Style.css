@@ -1,3 +1,5 @@
+/* IDs */
+
 #iniciaEncuesta{
     -fx-font-size: 20px;
 }
@@ -6,16 +8,20 @@
     -fx-fill: red;
 }
 
-.stage{
-    -fx-border-color: red;
-}
-
 #bienvenida{
     -fx-text-alignment: center;
+    -fx-font-size: 50px;
 }
 
 #categorias{
     -fx-font-size:20px;
+}
+
+
+/* Nodos */
+
+.stage{
+    -fx-border-color: red;
 }
 
 .label{
@@ -29,9 +35,14 @@
 }
 
 .button{
-    -fx-effect: dropshadow(three-pass-box,grey,10,0,5,5);
+    -fx-effect: dropshadow(three-pass-box,black,10,0,5,5);
 }
 
 .button:hover {
     -fx-cursor: hand;
+}
+
+.button:pressed{
+    -fx-background-color: red;
+    -fx-effect: dropshadow(three-pass-box,black,10,0,0,0);
 }

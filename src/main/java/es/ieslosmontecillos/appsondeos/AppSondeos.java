@@ -52,7 +52,7 @@ public class AppSondeos extends Application {
 
         // Texto de bienvenida
         Text txtBienvenida = new Text("Bienvenido a la App Sondeos,\n¿cómo te llamas?");
-        Text txtErrorCategoria = new Text("No se ha introducido una categoría");
+        Text txtErrorCategoriaUsuario = new Text("No se ha introducido una categoría o nombre de usuario.");
 
         // TextField que registrará el nombre en el csv
         TextField txtNombre = new TextField();
@@ -79,14 +79,21 @@ public class AppSondeos extends Application {
 
         // Evento para el botón de iniciar la encuesta
         iniciaEncuesta.setOnAction(e->{
+
             // Convierte a String el valor seleccionado en el ChoiceBox de encuestas para que funcione el switch
             String selecEnc = seleccionEncuesta.getValue().toString();
-
-            // Recoge el nombre del usuario para
             String nombreUsuario = txtNombre.getText();
-            if(!selecEnc.equals("Introduzca una categoría")) {
+            
+            if(!selecEnc.equals("Introduzca una categoría") || !nombreUsuario.isEmpty()) {
+
+                // Recoge el nombre del usuario para
+                nombreUsuario = txtNombre.getText();
+
                 try {
-                    FileWriter encuestaCsv = new FileWriter("Enc" + selecEnc + nombreUsuario, true);
+                    FileWriter encuestaCsv = new FileWriter(nombreUsuario + ".csv", true);
+                    encuestaCsv.append(selecEnc);
+                    comida.setCsvEncuesta(encuestaCsv);
+                    lectura.setCsvEncuesta(encuestaCsv);
                     switch (selecEnc) {
                         case "Animal":
                             root.setCenter(seccionesEncuesta);
@@ -117,7 +124,7 @@ public class AppSondeos extends Application {
                     err.printStackTrace();
                 }
             }else{
-                txtErrorCategoria.setVisible(true);
+                txtErrorCategoriaUsuario.setVisible(true);
             }
 
         });
@@ -130,21 +137,22 @@ public class AppSondeos extends Application {
         principal.getChildren().add(txtNombre);
         principal.getChildren().add(seleccionEncuesta);
         principal.getChildren().add(iniciaEncuesta);
-        principal.getChildren().add(txtErrorCategoria);
+        principal.getChildren().add(txtErrorCategoriaUsuario);
 
         // Propiedades de la página principal
-        principal.setSpacing(5);
+        principal.setSpacing(10);
         principal.setAlignment(Pos.CENTER);
 
         // Deja el mensaje de error en invisible por defecto
-        txtErrorCategoria.setVisible(false);
+        txtErrorCategoriaUsuario.setVisible(false);
 
         // Establece IDs para el css
-        txtErrorCategoria.setId("errorCategoria");
+        txtErrorCategoriaUsuario.setId("errorCategoria");
         iniciaEncuesta.setId("iniciaEncuesta");
         txtBienvenida.setId("bienvenida");
         seleccionEncuesta.setId("categorias");
 
+        // Ajusta el tamaño del TextField
         txtNombre.setMaxWidth(400);
 
         // Asigna el panel de la página principal(VBox)

@@ -6,11 +6,14 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 
+import java.io.FileWriter;
+
 public class Comida extends Tab {
 
     private GridPane root = new GridPane();
+    private FileWriter csvEncuesta;
     private Label preguntaC = new Label("¿Te gusta comer?");
-    private ToggleGroup gutsoComer = new ToggleGroup();
+    private ToggleGroup gustoComer = new ToggleGroup();
     private RadioButton siComer = new RadioButton("Si");
     private RadioButton noComer = new RadioButton("No");
     private Label preguntaTC = new Label("¿Qué tipo de comida te gusta más?");
@@ -34,17 +37,17 @@ public class Comida extends Tab {
     ObservableList<String> tComida = FXCollections.observableArrayList("Fruta", "Verdura", "Carne", "Pescado", "Legumbres", "Frituras", "Frutos secos");
     ObservableList<String> cComida = FXCollections.observableArrayList("Mucho", "Normal", "Poco", "Casi nada");
 
-    public Comida(){
+    public Comida() {
         makeGUI();
     }
 
-    private void makeGUI(){
+    private void makeGUI() {
 
         tipoComida.setItems(tComida);
         cantidadComida.setItems(cComida);
 
-        siComer.setToggleGroup(gutsoComer);
-        noComer.setToggleGroup(gutsoComer);
+        siComer.setToggleGroup(gustoComer);
+        noComer.setToggleGroup(gustoComer);
 
         siDieta.setToggleGroup(dietaEquilibrada);
         noDieta.setToggleGroup(dietaEquilibrada);
@@ -52,32 +55,32 @@ public class Comida extends Tab {
         intolerancia.setToggleGroup(intolera);
         tolerancia.setToggleGroup(intolera);
 
-        root.add(preguntaC,0,0);
-        root.add(siComer,1,0);
-        root.add(noComer,2,0);
-        root.add(preguntaTC,0,1);
-        root.add(tipoComida,1,1);
-        root.add(preguntaCF,0,2);
-        root.add(comidaFavorita,1,2);
-        root.add(preguntaDE,0,3);
-        root.add(siDieta,1,3);
-        root.add(noDieta,2,3);
-        root.add(preguntaCC,0,4);
-        root.add(cantidadComida,1,4);
-        root.add(preguntaIntolerancia,0,5);
-        root.add(intolerancia,1,5);
-        root.add(tolerancia,2,5);
-        root.add(intoleranciaConcreta,0,6);
-        root.add(intolerante,1,6);
-        root.add(enviarEncuesta,1,7);
+        root.add(preguntaC, 0, 0);
+        root.add(siComer, 1, 0);
+        root.add(noComer, 2, 0);
+        root.add(preguntaTC, 0, 1);
+        root.add(tipoComida, 1, 1);
+        root.add(preguntaCF, 0, 2);
+        root.add(comidaFavorita, 1, 2);
+        root.add(preguntaDE, 0, 3);
+        root.add(siDieta, 1, 3);
+        root.add(noDieta, 2, 3);
+        root.add(preguntaCC, 0, 4);
+        root.add(cantidadComida, 1, 4);
+        root.add(preguntaIntolerancia, 0, 5);
+        root.add(intolerancia, 1, 5);
+        root.add(tolerancia, 2, 5);
+        root.add(intoleranciaConcreta, 0, 6);
+        root.add(intolerante, 1, 6);
+        root.add(enviarEncuesta, 1, 7);
 
-        enviarEncuesta.setOnAction(e->{
-            if(!intolera.getSelectedToggle().isSelected() || intolera.getSelectedToggle().equals(tolerancia)){
-                intoleranciaConcreta.setVisible(false);
-                intolerante.setVisible(false);
-            }else{
+        intolera.selectedToggleProperty().addListener(e -> {
+            if (intolera.getSelectedToggle().equals(intolerancia)) {
                 intoleranciaConcreta.setVisible(true);
                 intolerante.setVisible(true);
+            } else {
+                intoleranciaConcreta.setVisible(false);
+                intolerante.setVisible(false);
             }
         });
 
@@ -91,5 +94,9 @@ public class Comida extends Tab {
         setText("Comida");
         setClosable(false);
         setContent(root);
+    }
+
+    public void setCsvEncuesta(FileWriter csv) {
+        csvEncuesta = csv;
     }
 }
