@@ -6,6 +6,7 @@
 package es.ieslosmontecillos.appsondeos;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
@@ -13,63 +14,148 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.function.UnaryOperator;
+import java.util.regex.Pattern;
 
 /**
- *
- * @author Profesora
+ * @author Equipo Omega
  */
 public class AppSondeos extends Application {
 
     @Override
-    public void start(Stage stage){
+    public void start(Stage stage) {
+
+        cargaApp(stage);
+
+    }
+
+    // Métodos para que salga el SplashScreen
+    private void cargaApp(Stage stage) {
+        Stage splashStage = new Stage();
+
+        StackPane splashLayout = new StackPane();
+
+        Label splashLabel = new Label("App Sondeos\nEquipo Omega");
+
+        Scene splashScene = new Scene(splashLayout, 300, 150);
+
+
+        splashLayout.getChildren().add(splashLabel);
+
+
+        splashScene.getStylesheets().add(AppSondeos.class.getResource("css/SplashScreen.css").toExternalForm());
+
+        splashStage.initStyle(StageStyle.UNDECORATED);
+        splashStage.getIcons().add(new Image(AppSondeos.class.getResourceAsStream("img/icon.png")));
+        splashStage.setScene(splashScene);
+        splashStage.show();
+
+        splashLayout.setId("layout");
+
+        cargaPrincipal(splashStage, stage);
+    }
+
+    // Carga la ventana de la página de Inicio
+    private void cargaPrincipal(Stage splashStage, Stage stage) {
+        new Thread(() -> {
+            try {
+                // Simula la carga de la aplicación
+                Thread.sleep(3000);
+
+                // Cerrar el SplashScreen
+                Platform.runLater(splashStage::close);
+
+                // Iniciar la aplicación principal
+                Platform.runLater(() -> {
+
+                    // Stage
+                    stage.getIcons().add(new Image(AppSondeos.class.getResourceAsStream("img/icon.png")));
+                    stage.setResizable(false);
+                    stage.setTitle("App Sondeos");
+                    stage.setScene(escena());
+                    stage.show();
+                });
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    // Llamada a la escena para abrirse después de la Splash Screen
+    private Scene escena() {
         // Lista que guarda los valores para el ChoiceBox
         ObservableList<String> encuestas = FXCollections.observableArrayList("Animal", "Comida", "Deporte", "Lectura", "Viajes");
 
-        // Panel base
+
+        // Paneles
+        // Base
         BorderPane root = new BorderPane();
 
-        // Panel de la página de bienvenida
+        // Página bienvenida
         VBox principal = new VBox();
 
-        // Panel para las encuestas
+        // Encuestas
         TabPane seccionesEncuesta = new TabPane();
+
 
         // Llamada a las distintas secciones(Tabs) de las clases objeto
         Comida comida = new Comida();
         Lectura lectura = new Lectura();
 
-        // Asignación de la escena
+
+        // Creación de la escena
         Scene scene = new Scene(root, 800, 900);
+
 
         // Asigna el css en la escena
         scene.getStylesheets().add(AppSondeos.class.getResource("css/Style.css").toExternalForm());
 
-        // Texto de bienvenida
+
+        // Textos
+        // Bienvenida
         Text txtBienvenida = new Text("Bienvenido a la App Sondeos,\n¿cómo te llamas?");
+
+        // Error
         Text txtErrorCategoriaUsuario = new Text("No se ha introducido una categoría o nombre de usuario.");
+
 
         // TextField que registrará el nombre en el csv
         TextField txtNombre = new TextField();
 
+
         // ChoiceBox para seleccionar las distintas encuestas
         ChoiceBox seleccionEncuesta = new ChoiceBox();
 
+
         // Botón para iniciar una encuesta
         Button iniciaEncuesta = new Button("Iniciar encuesta");
+
 
         // Permite especificar a qué sección acceder dependiendo de lo que se elija en el ChoiceBox
         SingleSelectionModel<Tab> selectionModel = seccionesEncuesta.getSelectionModel();
 
 
+        // Adición de nodos en el panel de la página principal
+        principal.getChildren().add(txtBienvenida);
+        principal.getChildren().add(txtNombre);
+        principal.getChildren().add(seleccionEncuesta);
+        principal.getChildren().add(iniciaEncuesta);
+        principal.getChildren().add(txtErrorCategoriaUsuario);
+
+
         // Adición de las secciones(Tabs) al TabPane
-        seccionesEncuesta.getTabs().add(lectura);
-        seccionesEncuesta.getTabs().add(comida);
+        seccionesEncuesta.getTabs().addAll(lectura, comida);
 
 
         // Asigna los valores en la ChoiceBox para seleccionar las distintas encuestas
@@ -77,24 +163,39 @@ public class AppSondeos extends Application {
         seleccionEncuesta.setItems(encuestas);
 
 
-        // Evento para el botón de iniciar la encuesta
-        iniciaEncuesta.setOnAction(e->{
+        // Eventos
+        iniciaEncuesta.setOnAction(e -> {
+            txtErrorCategoriaUsuario.setVisible(false);
 
-            // Convierte a String el valor seleccionado en el ChoiceBox de encuestas para que funcione el switch
             String selecEnc = seleccionEncuesta.getValue().toString();
             String nombreUsuario = txtNombre.getText();
-            
-            if(!selecEnc.equals("Introduzca una categoría") || !nombreUsuario.isEmpty()) {
 
-                // Recoge el nombre del usuario para
-                nombreUsuario = txtNombre.getText();
+            if (!selecEnc.equals("Introduzca una categoría") && !nombreUsuario.isEmpty()) {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos CSV", "*.csv"));
+
+                // Obtiene la ruta del directorio Documents del usuario actual
+                String directorioDocumentos = System.getProperty("user.home") + File.separator + "Documents";
+                String carpetaEncuestas = directorioDocumentos + File.separator + "Encuestas";
+
+                // Crea la carpeta Encuestas si no existe
+                File carpetaEncuestasFile = new File(carpetaEncuestas);
+                carpetaEncuestasFile.mkdirs();
+
+                // Construir la ruta completa al archivo
+                String rutaCompleta = carpetaEncuestas + File.separator + nombreUsuario + ".csv";
 
                 try {
-                    FileWriter encuestaCsv = new FileWriter(nombreUsuario + ".csv", true);
-                    encuestaCsv.append(selecEnc);
+                    // Crea el csv en la carpeta Encuesta de
+                    FileWriter encuestaCsv = new FileWriter(rutaCompleta, true);
+
+                    // Asigna el fichero de la encuesta a las secciones
                     comida.setCsvEncuesta(encuestaCsv);
                     lectura.setCsvEncuesta(encuestaCsv);
+
+                    // Se desplaza a una encuesta distinta dependiendo de la sección
                     switch (selecEnc) {
+                        
                         case "Animal":
                             root.setCenter(seccionesEncuesta);
                             selectionModel.select(0);
@@ -120,49 +221,57 @@ public class AppSondeos extends Application {
                             selectionModel.select(4);
                             break;
                     }
-                }catch (IOException err){
+                } catch (IOException err) {
                     err.printStackTrace();
                 }
-            }else{
+            } else {
                 txtErrorCategoriaUsuario.setVisible(true);
             }
-
         });
 
-        // Muestra el icono de la aplicación
-        stage.getIcons().add(new Image(AppSondeos.class.getResourceAsStream("img/icon.png")));
 
-        // Adición de nodos en el panel de la página principal
-        principal.getChildren().add(txtBienvenida);
-        principal.getChildren().add(txtNombre);
-        principal.getChildren().add(seleccionEncuesta);
-        principal.getChildren().add(iniciaEncuesta);
-        principal.getChildren().add(txtErrorCategoriaUsuario);
+        // Formato para los TextField
+        // txtNombre
+        UnaryOperator<TextFormatter.Change> filtroLetra = cambio -> {
+            // RegEx para permitir solo letras
+            Pattern patron = Pattern.compile("[0-9]");
 
-        // Propiedades de la página principal
-        principal.setSpacing(10);
-        principal.setAlignment(Pos.CENTER);
+            // Verificamos si el nuevo texto cumple con la RegEx
+            if (!patron.matcher(cambio.getControlNewText()).matches()) {
+                return cambio;
+            } else {
+                // Si no se cumple con los requisitos del patrón, no se devuelve nada
+                return null;
+            }
+        };
 
-        // Deja el mensaje de error en invisible por defecto
-        txtErrorCategoriaUsuario.setVisible(false);
+        TextFormatter<String> letraSolo = new TextFormatter<>(filtroLetra);
+        txtNombre.setTextFormatter(letraSolo);
 
-        // Establece IDs para el css
+
+        // IDs CSS
         txtErrorCategoriaUsuario.setId("errorCategoria");
         iniciaEncuesta.setId("iniciaEncuesta");
         txtBienvenida.setId("bienvenida");
         seleccionEncuesta.setId("categorias");
 
-        // Ajusta el tamaño del TextField
-        txtNombre.setMaxWidth(400);
 
-        // Asigna el panel de la página principal(VBox)
+        // Propiedades
+        // Escena
+        scene.getStylesheets().add(AppSondeos.class.getResource("css/Style.css").toExternalForm());
+
+        // Paneles
+        principal.setSpacing(10);
+        principal.setAlignment(Pos.CENTER);
+
         root.setCenter(principal);
 
-        // Propiedades del stage
-        stage.setResizable(false);
-        stage.setTitle("App Sondeos");
-        stage.setScene(scene);
-        stage.show();
+        // Nodos
+        txtNombre.setMaxWidth(400);
+
+        txtErrorCategoriaUsuario.setVisible(false);
+
+        return scene;
     }
 
     /**
@@ -172,6 +281,4 @@ public class AppSondeos extends Application {
         launch(args);
     }
 
-
-    
 }
