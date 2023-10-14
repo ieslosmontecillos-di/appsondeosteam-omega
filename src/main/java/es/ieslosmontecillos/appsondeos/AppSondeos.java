@@ -70,9 +70,9 @@ public class AppSondeos extends Application {
         new Thread(() -> {
             try {
                 // Simula la carga de la aplicación
-                Thread.sleep(3000);
+                Thread.sleep(5000);
 
-                // Cerrar el SplashScreen
+                // Cierra la pantalla de carga
                 Platform.runLater(splashStage::close);
 
                 // Iniciar la aplicación principal
@@ -87,7 +87,7 @@ public class AppSondeos extends Application {
                 });
 
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                System.err.println("Error al cargar la pantalla");
             }
         }).start();
     }
@@ -195,7 +195,7 @@ public class AppSondeos extends Application {
 
                     // Se desplaza a una encuesta distinta dependiendo de la sección
                     switch (selecEnc) {
-                        
+
                         case "Animal":
                             root.setCenter(seccionesEncuesta);
                             selectionModel.select(0);

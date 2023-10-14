@@ -6,5 +6,7 @@
 }
 
 #layout {
-    -fx-background-color: white;
+    -fx-background-image: url("../img/PantallaCarga.gif");
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
 }
