@@ -47,8 +47,6 @@ public class AppSondeos extends Application {
 
         Label splashLabel = new Label("App Sondeos\nEquipo Omega");
 
-        splashLabel.setId("splashLabel");
-
         Scene splashScene = new Scene(splashLayout, 300, 150);
 
 
@@ -97,7 +95,7 @@ public class AppSondeos extends Application {
     // Llamada a la escena para abrirse después de la Splash Screen
     private Scene escena() {
         // Lista que guarda los valores para el ChoiceBox
-        ObservableList<String> encuestas = FXCollections.observableArrayList("Animal", "Comida", "Deporte", "Lectura", "Viajes");
+        ObservableList<String> encuestas = FXCollections.observableArrayList("Animales", "Comida", "Deporte", "Lectura", "Viajes");
 
 
         // Paneles
@@ -112,10 +110,11 @@ public class AppSondeos extends Application {
 
 
         // Llamada a las distintas secciones(Tabs) de las clases objeto
+        Animales animal = new Animales();
         Comida comida = new Comida();
-        Lectura lectura = new Lectura();
         Deportes deporte = new Deportes();
-
+        Lectura lectura = new Lectura();
+        Viajes viaje = new Viajes();
 
         // Creación de la escena
         Scene scene = new Scene(root, 800, 900);
@@ -158,7 +157,7 @@ public class AppSondeos extends Application {
 
 
         // Adición de las secciones(Tabs) al TabPane
-        seccionesEncuesta.getTabs().addAll(lectura, comida, deporte);
+        seccionesEncuesta.getTabs().addAll(animal, comida, deporte, lectura, viaje);
 
 
 
@@ -197,12 +196,13 @@ public class AppSondeos extends Application {
                     comida.setCsvEncuesta(encuestaCsv);
                     lectura.setCsvEncuesta(encuestaCsv);
                     deporte.setCsvEncuesta(encuestaCsv);
-
+                    viaje.setCsvEncuesta(encuestaCsv);
+                    animal.setCsvEncuesta(encuestaCsv);
 
                     // Se desplaza a una encuesta distinta dependiendo de la sección
                     switch (selecEnc) {
 
-                        case "Animal":
+                        case "Animales":
                             root.setCenter(seccionesEncuesta);
                             selectionModel.select(0);
                             break;

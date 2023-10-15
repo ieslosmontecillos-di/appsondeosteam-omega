@@ -1,151 +1,203 @@
 package es.ieslosmontecillos.appsondeos;
 
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class Viajes extends Application {
+public class Viajes extends Tab {
 
-
-    @Override
-    public void start(Stage stage) throws Exception {
+    // Panel
+    private final GridPane root = new GridPane();
 
 
-        TabPane tabPane = new TabPane();
-        VBox vBox = new VBox(tabPane);
-        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-
-        GridPane gridPane = new GridPane();
-        gridPane.setHgap(10);
-        gridPane.setVgap(30);
-        gridPane.setPadding(new Insets(0,10, 0, 10));
-
-        //Pregunta sobre si ha viajado
-        final ToggleGroup ViajeSN = new ToggleGroup();
-        Label lblViaje = new Label("¿Ha viajado en los dos ultimos años?");
-        RadioButton rbSi = new RadioButton();
-        rbSi.setText("Si");
-        rbSi.setToggleGroup(ViajeSN);
-        RadioButton rbNo = new RadioButton();
-        rbNo.setText("No");
-        rbNo.setToggleGroup(ViajeSN);
+    // Fichero encuesta
+    FileWriter csvEncuesta;
 
 
-        gridPane.add(lblViaje, 3 ,1);
-        gridPane.add(rbSi , 4, 1);
-        gridPane.add(rbNo, 5, 1);
+    // Preguntas encuesta
+    // Pregunta 1
+    private final Label lblViaje = new Label("¿Ha viajado en los dos ultimos años?");
+    private final ToggleGroup viajeSN = new ToggleGroup();
+    private final RadioButton rbSi = new RadioButton("Si");
+    private final RadioButton rbNo = new RadioButton("No");
+
+    // Pregunta 2
+    private final Label lblprevisto = new Label("¿Tiene previsto viajar próximamente?");
+    private final ToggleGroup previstoSN = new ToggleGroup();
+    private final RadioButton previstoSi = new RadioButton("Si");
+    private final RadioButton previstoNo = new RadioButton("No");
+
+    // Pregunta 3
+    private final Label lblpromedio = new Label("¿Cuantos días de promedio duran sus viajes?");
+    private final ChoiceBox promedio = new ChoiceBox();
+
+    // Pregunta 4
+    private final Label lblprecio = new Label("Precio que suele gastar en todo el viaje");
+    private final TextField txtPrecio = new TextField();
+
+    // Pregunta 5
+    private final Label lblContinentes = new Label("Continente al que le gustaría viajar");
+    private final ChoiceBox continents = new ChoiceBox();
 
 
-        //Pregunta sobre si tiene previsto viajar proximamente
-        final ToggleGroup previstoSN = new ToggleGroup();
-        Label lblprevisto = new Label("¿Tiene previsto viajar próximamente?");
-        RadioButton previstoSi = new RadioButton();
-        previstoSi.setText("Si");
+    // Botón para enviar la encuesta
+    private final Button btnEnviar = new Button("Enviar encuesta");
+
+
+    // Constructor
+    public Viajes(){makeGUI();}
+
+
+    // Métodos
+    private void makeGUI(){
+
+        valoresChoiceBox();
+        gruposRadioButton();
+        adicionNodos();
+        eventos();
+        propiedades();
+
+        setContent(root);
+    }
+
+    private void valoresChoiceBox(){
+        // Pregunta 3
+        ObservableList<String> opcionesDias = FXCollections.observableArrayList("Entre 2 a 3 dias", "Entre 4 a 7 dias", "Entre 1 y 2 semanas");
+        promedio.setItems(opcionesDias);
+
+        // Pregunta 5
+        ObservableList<String> opcionesContinentes = FXCollections.observableArrayList("Europa", "Asia", "America", "Oceania", "Africa");
+        continents.setItems(opcionesContinentes);
+    }
+
+    private void gruposRadioButton(){
+        // Pregunta 1
+        rbSi.setToggleGroup(viajeSN);
+        rbNo.setToggleGroup(viajeSN);
+
+        // Pregunta 2
         previstoSi.setToggleGroup(previstoSN);
-        RadioButton previstoNo = new RadioButton();
-        previstoNo.setText("No");
         previstoNo.setToggleGroup(previstoSN);
+    }
+
+    private void adicionNodos(){
+
+        // Preguntas
+        // 1
+        root.add(lblViaje, 3 ,1);
+        root.add(rbSi , 4, 1);
+        root.add(rbNo, 5, 1);
+
+        // 2
+        root.add(lblprevisto, 3, 4);
+        root.add(previstoSi, 4, 4);
+        root.add(previstoNo, 5,4);
+
+        // 3
+        root.add(lblpromedio, 3, 7);
+        root.add(promedio, 4, 7);
+
+        // 4
+        root.add(lblprecio, 3, 10);
+        root.add(txtPrecio, 4 , 10);
+
+        // 5
+        root.add(lblContinentes, 3, 13);
+        root.add(continents, 4, 13);
 
 
-        gridPane.add(lblprevisto, 3, 4);
-        gridPane.add(previstoSi, 4, 4);
-        gridPane.add(previstoNo, 5,4);
+        // Botón enviar encuesta
+        root.add(btnEnviar, 4, 16);
+    }
 
-
-        //Pregunta sobre cuantos dias de promedio duran sus viajes
-        Label lblpromedio = new Label("¿Cuantos días de promedio dura sin viajes?");
-        ObservableList<String> opcionesDias =
-                FXCollections.observableArrayList(
-                        "Entre 2 a 3 días",
-                        "Entre 4 a 7 dias",
-                        "Entre 1 y 2 semanas"
-                );
-        final ComboBox comboBoxpromedio = new ComboBox(opcionesDias);
-
-
-        gridPane.add(lblpromedio, 3, 7);
-        gridPane.add(comboBoxpromedio, 4, 7);
-
-
-        //Precio del viaje
-        Label lblprecio = new Label("Precio que suele gastar en todo el viaje");
-        TextField txtPrecio = new TextField("€");
-
-
-        gridPane.add(lblprecio, 3, 10);
-        gridPane.add(txtPrecio, 4 , 10);
-
-
-        //Continentes
-        Label lblContinentes = new Label("Continente al que le gustaria viajar");
-        ObservableList<String> opcionesContinentes =
-                FXCollections.observableArrayList(
-                        "Europa",
-                        "Asia",
-                        "America",
-                        "Oceanía",
-                        "Africa"
-                );
-        final ComboBox comboBoxContientes = new ComboBox(opcionesContinentes);
-
-
-        gridPane.add(lblContinentes, 3, 13);
-        gridPane.add(comboBoxContientes, 4, 13);
-
-        //Enviar boton
-        Button btnEnviar = new Button("Enviar encuesta");
-        btnEnviar.setOnAction(actionEvent -> {
-            try {
-                String seleccionaViajeSn = ((RadioButton) ViajeSN.getSelectedToggle()).getText();
-                String seleccionaPrevistoSn = ((RadioButton) previstoSN.getSelectedToggle()).getText();
-                String promedioViaje = comboBoxpromedio.getValue().toString();
-                String precioViaje = txtPrecio.getText();
-                String continentes = comboBoxContientes.getValue().toString();
-
-                List<String> data = new ArrayList<>();
-                data.add(seleccionaViajeSn);
-                data.add(seleccionaPrevistoSn);
-                data.add(promedioViaje);
-                data.add(precioViaje);
-                data.add(String.valueOf(continentes));
-
-
-                FileWriter csvEncuesta = new FileWriter("Enc_Viajes.csv", true);
-                System.out.println("Encuesta enviada");
-                for (String celda : data) {
-                    csvEncuesta.append(celda);
-                    csvEncuesta.append(",");
-                }
-                csvEncuesta.append("\n");
-                csvEncuesta.flush();
-                csvEncuesta.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    private void eventos(){
+        // Vacía las respuestas
+        setOnSelectionChanged(changedSelection -> {
+            vaciaEncuesta();
         });
 
-        gridPane.add(btnEnviar, 4, 16);
-
-
-        //Escena Final
-        Scene scene = new Scene(gridPane, 800, 900);
-        String cssFile = Viajes.class.getResource("css/Style.css").toExternalForm();
-        scene.getStylesheets().add(cssFile);
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.setTitle("Viajes");
-        stage.show();
-
+        // Envía la encuesta
+        btnEnviar.setOnAction(actionEvent -> {
+            enviaEncuesta();
+        });
     }
+
+    private void propiedades(){
+        // Panel
+        root.setHgap(10);
+        root.setVgap(30);
+        root.setPadding(new Insets(0,10, 0, 10));
+
+        // Tab
+        setClosable(false);
+        setText("Viajes");
+    }
+
+    public void setCsvEncuesta(FileWriter csvEnc){
+        csvEncuesta = csvEnc;
+    }
+
+
+    // Métodos de los eventos
+    private void enviaEncuesta(){
+        try {
+            csvEncuesta.append(getText());
+            csvEncuesta.append(",");
+
+            // Registra las preguntas
+            String preg1 = "Ha viajado";
+            String preg2 = "Viajara";
+            String preg3 = "Duracion";
+            String preg4 = "Precio medio gastado";
+            String preg5 = "Continente al que le gustaria viajar";
+
+            ObservableList<String> preguntas = FXCollections.observableArrayList(preg1, preg2, preg3, preg4, preg5);
+
+            for (String celda : preguntas) {
+                csvEncuesta.append(celda);
+                csvEncuesta.append(",");
+            }
+            csvEncuesta.append("\n");
+            csvEncuesta.append(",");
+
+
+            // Registra las respuestas
+            String seleccionaViajeSn = viajeSN.getSelectedToggle() != null ? ((RadioButton) viajeSN.getSelectedToggle()).getText() : "";
+            String seleccionaPrevistoSn = previstoSN.getSelectedToggle() != null ? ((RadioButton) previstoSN.getSelectedToggle()).getText() : "";
+            String promedioViaje = promedio.getValue() != null ? promedio.getValue().toString() : "";
+            String precioViaje = txtPrecio.getText();
+            String continentes = continents.getValue() != null ? continents.getValue().toString() : "";
+
+            ObservableList<String> respuestas = FXCollections.observableArrayList(seleccionaViajeSn, seleccionaPrevistoSn, promedioViaje, precioViaje, continentes);
+
+            for (String celda : respuestas) {
+                csvEncuesta.append(celda);
+                csvEncuesta.append(",");
+            }
+            csvEncuesta.append("\n");
+
+
+            // Termina cerrando la encuesta
+            System.out.println("Encuesta enviada");
+            csvEncuesta.flush();
+            csvEncuesta.close();
+            System.exit(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void vaciaEncuesta(){
+        viajeSN.selectToggle(null);
+        previstoSN.selectToggle(null);
+        promedio.getSelectionModel().clearSelection();
+        txtPrecio.clear();
+        continents.getSelectionModel().clearSelection();
+    }
+
 }

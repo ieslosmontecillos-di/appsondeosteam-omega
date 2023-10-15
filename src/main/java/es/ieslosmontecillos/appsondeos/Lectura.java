@@ -43,7 +43,7 @@ public class Lectura extends Tab {
     private final ChoiceBox interesLectura = new ChoiceBox();
 
 
-    // Botón
+    // Botón para enviar encuesta
     private final Button enviarEncuesta = new Button("Enviar");
 
 
@@ -66,41 +66,45 @@ public class Lectura extends Tab {
     }
 
     private void valoresChoiceBox() {
-        // Listas para ChoiceBox
         ObservableList<String> fLectura = FXCollections.observableArrayList("No leo", "Todos los días", "Más de 4 veces a la semana", "2 o 3 veces a la semana", "1 vez a la semana");
         ObservableList<String> tLectura = FXCollections.observableArrayList("Otro", "Cómics", "Novelas", "Poemas", "Cuentos", "Enciclopedias", "Diccionarios", "Biografías", "Libros de divulgación científica", "Libros de fotografía");
         ObservableList<String> iLectura = FXCollections.observableArrayList("No estoy interesado", "No me acuerdo", "Recomendación de amigos/familiares", "Interés propio");
 
 
-        // Asignación de opciones ChoiceBox
         frecuenciaLectura.setItems(fLectura);
         tipoLectura.setItems(tLectura);
         interesLectura.setItems(iLectura);
     }
 
     private void adicionNodos() {
-        // Adición de nodos al panel
-        // Panel principal
+        // Preguntas
+        // 1
         root.add(preguntaIL, 1, 1);
         root.add(interesLectura, 3, 1);
 
+        // 2
         root.add(preguntaTL, 1, 2);
         root.add(tipoLectura, 3, 2);
 
+        // 3
         root.add(preguntaFL, 1, 3);
         root.add(frecuenciaLectura, 3, 3);
 
+        // 4
         root.add(preguntaTF, 1, 4);
         root.add(tituloFavorito, 3, 4);
 
+        // 5
         root.add(preguntaNO, 1, 5);
         root.add(numObras, 3, 5);
 
+
+        // Botón enviar encuesta
         root.add(enviarEncuesta, 3, 6);
     }
 
     private void eventos() {
-        // Eventos
+
         enviarEncuesta.setOnAction(onClick -> {
             enviaEncuesta();
         });
@@ -142,7 +146,12 @@ public class Lectura extends Tab {
         setClosable(false);
     }
 
+    public void setCsvEncuesta(FileWriter csv) {
+        csvEncuesta = csv;
+    }
 
+
+    // Métodos de eventos
     private void enviaEncuesta() {
         try {
             // Tipo de encuesta
@@ -165,22 +174,13 @@ public class Lectura extends Tab {
             csvEncuesta.append("\n");
             csvEncuesta.append(",");
 
-            String frecuenciaLee = "";
-            String tipoLec = "";
-            String interes = "";
-
-            if (frecuenciaLectura.getValue() != null)
-                frecuenciaLee = frecuenciaLectura.getValue().toString();
-            if (tipoLectura.getValue() != null)
-                tipoLec = tipoLectura.getValue().toString();
-            if (interesLectura.getValue() != null)
-                interes = interesLectura.getValue().toString();
-
 
             // Respuestas registradas en el csv
+            String frecuenciaLee = frecuenciaLectura.getValue() != null ? frecuenciaLectura.getValue().toString() : "";
+            String tipoLec = tipoLectura.getValue() != null ? tipoLectura.getValue().toString() : "";
             String titFav = tituloFavorito.getText();
             String leidos = numObras.getText();
-
+            String interes = interesLectura.getValue() != null ? interesLectura.getValue().toString() : "";
 
             ObservableList<String> respuestas = FXCollections.observableArrayList(frecuenciaLee, tipoLec, titFav, leidos, interes);
 
@@ -189,6 +189,10 @@ public class Lectura extends Tab {
                 csvEncuesta.append(",");
             }
             csvEncuesta.append("\n\n");
+
+
+            // Termina cerrando la encuesta
+            System.out.println("Encuesta enviada");
             csvEncuesta.flush();
             csvEncuesta.close();
             System.exit(0);
@@ -204,9 +208,5 @@ public class Lectura extends Tab {
         tituloFavorito.setText("");
         numObras.setText("");
         interesLectura.getSelectionModel().clearSelection();
-    }
-
-    public void setCsvEncuesta(FileWriter csv) {
-        csvEncuesta = csv;
     }
 }

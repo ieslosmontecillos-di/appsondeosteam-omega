@@ -1,74 +1,128 @@
 package es.ieslosmontecillos.appsondeos;
 
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class Animales extends Application {
-    public void start(Stage stage) {
-//
-        GridPane gridPane = new GridPane();
-        gridPane.setHgap(28);
-        gridPane.setVgap(25);
-        gridPane.setPadding(new Insets(0,10, 0, 10));
 
-        //Animal
-        Label lblanimal = new Label("¿Animal?");
-        TextField txtanimal = new TextField("");
-        gridPane.add(lblanimal, 3 ,1);
-        gridPane.add(txtanimal , 4, 1);
+public class Animales extends Tab {
 
-        //Sexo del animal
-        final ToggleGroup sexo = new ToggleGroup();
-        Label lblsexo = new Label("Seleccione sexo");
-        RadioButton rbmacho = new RadioButton();
-        rbmacho.setText("MACHO");
+    // Panel
+    private final GridPane root = new GridPane();
+
+    // Fichero encuesta
+    FileWriter csvEncuesta;
+
+    // Preguntas encuesta
+    // Pregunta 1
+    private final Label lblanimal = new Label("¿Animal?");
+    private final TextField txtanimal = new TextField("");
+
+    // Pregunta 2
+    private final Label lblsexo = new Label("Seleccione sexo");
+    private final ToggleGroup sexo = new ToggleGroup();
+    private final RadioButton rbmacho = new RadioButton("Macho");
+    private final RadioButton rbhembra = new RadioButton("Hembra");
+
+    // Pregunta 3
+    private final Label lbltipoanimal = new Label("Tipo de animales: ");
+    private final ChoiceBox tipoAnimal = new ChoiceBox();
+
+    // Pregunta 4
+    private final Label lblvenenoso = new Label("¿Animal venenoso?");
+    private final ToggleGroup veneno = new ToggleGroup();
+    private final RadioButton rbvenenoSi = new RadioButton("Si");
+    private final RadioButton rbvenenoNo = new RadioButton("No");
+
+    // Pregunta 5
+    private final Label lblPeligro = new Label("Peligrosidad");
+    private final Slider slPeligro = new Slider();
+
+    // Pregunta 6
+    private final Label lblPeligroEx = new Label("Peligro de extinción ");
+    private final Slider slPeligroEx = new Slider();
+
+
+    // Botón para enviar la encuesta
+    private final Button btnEnviar = new Button("Enviar encuesta");
+
+
+    public Animales(){makeGUI();}
+
+    private void makeGUI(){
+
+        valoresChoiceBox();
+        gruposRadioButton();
+        adicionNodos();
+        eventos();
+        propiedades();
+
+        setContent(root);
+    }
+
+    private void valoresChoiceBox(){
+        ObservableList<String> tAnimal = FXCollections.observableArrayList("Pez", "Anfibio", "Reptil", "Ave", "Mamífero");
+
+        tipoAnimal.setItems(tAnimal);
+    }
+
+    private void gruposRadioButton(){
+
         rbmacho.setToggleGroup(sexo);
-        RadioButton rbhembra = new RadioButton();
-        rbhembra.setText("HEMBRA");
         rbhembra.setToggleGroup(sexo);
-        gridPane.add(lblsexo, 3, 3);
-        gridPane.add(rbmacho, 4, 3);
-        gridPane.add(rbhembra, 5, 3);
 
-        //Tipo de animal
-        Label lbltipoanimal = new Label("Tipo de animales: ");
-        ObservableList<String> options =
-                FXCollections.observableArrayList(
-                        "Pez",
-                        "Anfibio",
-                        "Reptil",
-                        "Ave",
-                        "Mamífero"
-                );
-        final ComboBox comboBox = new ComboBox(options);
-        gridPane.add(lbltipoanimal, 3, 5);
-        gridPane.add(comboBox, 4, 5);
-
-        //Animal venenoso
-        final ToggleGroup veneno = new ToggleGroup();
-        Label lblvenenoso = new Label("¿Animal venenoso?");
-        RadioButton rbvenenoSi = new RadioButton("Si");
         rbvenenoSi.setToggleGroup(veneno);
-        RadioButton rbvenenoNo = new RadioButton("No");
         rbvenenoNo.setToggleGroup(veneno);
-        gridPane.add(lblvenenoso, 3, 7);
-        gridPane.add(rbvenenoSi, 4, 7);
-        gridPane.add(rbvenenoNo, 5, 7);
 
-        //Slider peligro del animal
-        Label lblPeligro = new Label("Peligrosidad");
-        Slider slPeligro = new Slider();
+    }
+
+    private void adicionNodos(){
+
+        root.add(lblanimal, 3 ,1);
+        root.add(txtanimal , 4, 1);
+
+        root.add(lblsexo, 3, 3);
+        root.add(rbmacho, 4, 3);
+        root.add(rbhembra, 5, 3);
+
+        root.add(lbltipoanimal, 3, 5);
+        root.add(tipoAnimal, 4, 5);
+
+        root.add(lblvenenoso, 3, 7);
+        root.add(rbvenenoSi, 4, 7);
+        root.add(rbvenenoNo, 5, 7);
+
+        root.add(lblPeligro,3,9);
+        root.add(slPeligro, 4,9);
+
+        root.add(lblPeligroEx,3,11);
+        root.add(slPeligroEx, 4,11);
+
+        root.add(btnEnviar, 4, 13);
+
+    }
+
+    private void eventos(){
+
+        // Vacía la encuesta
+        setOnSelectionChanged( changedSelection ->{
+            vaciaEncuesta();
+        });
+
+        // Envía la encuesta
+        btnEnviar.setOnAction(actionEvent -> {
+            enviaEncuesta();
+        });
+    }
+
+    private void propiedades(){
+
+        // Barra de peligrosidad
         slPeligro.setMin(0);
         slPeligro.setMax(10);
         slPeligro.setValue(5);
@@ -76,12 +130,8 @@ public class Animales extends Application {
         slPeligro.setShowTickMarks(true);
         slPeligro.setMajorTickUnit(5);
         slPeligro.setMinorTickCount(5);
-        gridPane.add(lblPeligro,3,9);
-        gridPane.add(slPeligro, 4,9);
 
-        //Slider peligro de extincion del animal
-        Label lblPeligroEx = new Label("Peligro de extinción ");
-        Slider slPeligroEx = new Slider();
+        // Barra de peligro de extinción
         slPeligroEx.setMin(0);
         slPeligroEx.setMax(10);
         slPeligroEx.setValue(5);
@@ -89,55 +139,79 @@ public class Animales extends Application {
         slPeligroEx.setShowTickMarks(true);
         slPeligroEx.setMajorTickUnit(5);
         slPeligroEx.setMinorTickCount(5);
-        gridPane.add(lblPeligroEx,3,11);
-        gridPane.add(slPeligroEx, 4,11);
-
-        //Enviar boton
-        Button btnEnviar = new Button("Enviar encuesta");
-        btnEnviar.setOnAction(actionEvent -> {
-            try {
-                String nombreAnimal = txtanimal.getText();
-                String seleccionaSexo =  sexo.getSelectedToggle() != null ? ((RadioButton) sexo.getSelectedToggle()).getText() : "";
-                String TipodeAnimal = comboBox.getValue().toString();
-                String esVenenoso =  veneno.getSelectedToggle() != null ? ((RadioButton) veneno.getSelectedToggle()).getText() : "";
-                String peligroso = String.format("%.2f",slPeligro.getValue());
-                double peligrodeExtincion = slPeligroEx.getValue();
-
-                List<String> data = new ArrayList<>();
-                data.add(nombreAnimal);
-                data.add(seleccionaSexo);
-                data.add(TipodeAnimal);
-                data.add(esVenenoso);
-                data.add(String.valueOf(peligroso));
-                data.add(String.valueOf(peligrodeExtincion));
-
-                FileWriter csvEncuesta = new FileWriter("Enc_Animales.csv", true);
-                System.out.println("Encuesta enviada");
-                for (String celda : data) {
-                    csvEncuesta.append(celda);
-                    csvEncuesta.append(",");
-                }
-                csvEncuesta.append("\n");
-                csvEncuesta.flush();
-                csvEncuesta.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        gridPane.add(btnEnviar, 4, 13);
 
 
+        // Panel
+        root.setHgap(28);
+        root.setVgap(25);
+        root.setPadding(new Insets(0,10, 0, 10));
 
-        Scene scene = new Scene(gridPane ,800, 900);
-        String cssFile = Animales.class.getResource("css/Style.css").toExternalForm();
-        scene.getStylesheets().add(cssFile);
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.setTitle("Animales");
-        stage.show();
+        // Tab
+        setText("Animales");
+        setClosable(false);
     }
 
-    public static void main(String[] args) {
-        launch();
+    public void setCsvEncuesta(FileWriter csvEnc){
+        csvEncuesta = csvEnc;
+    }
+
+    // Métodos de los eventos
+    private void enviaEncuesta(){
+        try {
+            csvEncuesta.append(getText());
+            csvEncuesta.append(",");
+
+            // Registra las preguntas
+            String preg1 = "Nombre";
+            String preg2 = "Sexo";
+            String preg3 = "Tipo";
+            String preg4 = "Venenosidad";
+            String preg5 = "Peligrosidad";
+            String preg6 = "Nivel peligro de extinción";
+
+            ObservableList<String> preguntas = FXCollections.observableArrayList(preg1, preg2, preg3, preg4, preg5, preg6);
+
+            for (String celda : preguntas) {
+                csvEncuesta.append(celda);
+                csvEncuesta.append(",");
+            }
+            csvEncuesta.append("\n");
+            csvEncuesta.append(",");
+
+
+            // Registra las respuestas
+            String nombreAnimal = txtanimal.getText();
+            String seleccionaSexo =  sexo.getSelectedToggle() != null ? ((RadioButton) sexo.getSelectedToggle()).getText() : "";
+            String tipodeAnimal = tipoAnimal.getValue() != null ? tipoAnimal.getValue().toString() : "";
+            String esVenenoso =  veneno.getSelectedToggle() != null ? ((RadioButton) veneno.getSelectedToggle()).getText() : "";
+            String peligroso = String.format("%.2f",slPeligro.getValue());
+            String peligrodeExtincion = String.format("%.2f",slPeligroEx.getValue());
+
+            ObservableList<String> data = FXCollections.observableArrayList(nombreAnimal, seleccionaSexo, tipodeAnimal, esVenenoso, peligroso, peligroso, peligrodeExtincion);
+
+            for (String celda : data) {
+                csvEncuesta.append(celda);
+                csvEncuesta.append(",");
+            }
+            csvEncuesta.append("\n");
+
+
+            // Termina cerrando la encuesta
+            System.out.println("Encuesta enviada");
+            csvEncuesta.flush();
+            csvEncuesta.close();
+            System.exit(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void vaciaEncuesta() {
+        txtanimal.clear();
+        sexo.selectToggle(null);
+        tipoAnimal.getSelectionModel().clearSelection();
+        veneno.selectToggle(null);
+        slPeligro.setValue(5);
+        slPeligroEx.setValue(5);
     }
 }
