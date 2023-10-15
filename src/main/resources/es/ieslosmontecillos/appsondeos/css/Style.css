@@ -90,9 +90,6 @@
     -fx-background-image: url("../img/background2.png");
 }
 /* IDs */
-#errorlbl{
-    -fx-font-style: red;
-}
 #iniciaEncuesta {
     -fx-font-size: 20px;
 }
