@@ -116,7 +116,7 @@ public class AppSondeos extends Application {
         Viajes viaje = new Viajes();
 
         // Creación de la escena
-        Scene scene = new Scene(root, 800, 900);
+        Scene scene = new Scene(root, 775, 800);
 
         
         // Asigna el css en la escena

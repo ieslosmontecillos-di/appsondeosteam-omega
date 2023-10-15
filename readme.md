@@ -1,37 +1,47 @@
-**AppSondeos\_teamName:**
+﻿**AppSondeos**
 
-Cada equipo desarrollará una App con un escenario principal que incluya en un área central una imagen que sugiera encuestas (imagen\_1). En el área superior, top, se incluya una barra de menú con un menú en la parte izquierda con dos menúitems uno de los cuales lanzará otro escenario que incluirá un TabPane con cinco Tab, uno por cada uno de los tipos de encuesta que se indicará después (imagen\_2). Otro menú en la parte derecha del top con los menuitem de ayuda y acerca de. Se supone un interfaz similar a:
+**Equipo Omega**
 
-![AppSondeos1](imagen1.jpg)
-
-imagen\_1
-
-Para el comportamiento del menú, se registrarán los manejadores de eventos correspondientes: Al hacer clic sobre el MenuItem &quot;Realizar encuestas&quot; se debe mostrar la escena con los diferentes Tabs para realizar las diferentes encuestas, que son sobre Deporte, Animales, Comidas, Viajes, Lecturas. Al hacer clic sobre el MenuItem salir se cierra la aplicación.
-
-Además se crearán por tanto varias UI (escenas gráficas) incorporando los controles necesarios para que un usuario pueda rellenar los distintos tipos de encuesta, al final quedará una interfaz similar a la de la imagen en la que se muestra el Tab para la encuesta sobre Deportes. Las escenas que se mostrarán al seleccionar los Tabs serán cada unas pequeñas encuestas en la que se preguntará al usuario algunos datos personales, como la profesión, edad, o número de hermanos, y otros datos relacionados con los siguientes temas (un tema para cada escena):
-
-1. **Deportes** , hábitos de ocio (ejemplo en la imagen adjunta)
-
-2. **Animales** , mascotas, hábitos con las mascotas.
-
-3. **Comidas** , tipos de comidas, hábitos alimenticios.
-
-4. **Viajes** , medios de transporte, hábitos de viajar.
-
-5. **Lecturas** , tipo de lecturas, comics, novelas, ensayos, hábitos de lectura.
-
-Ejemplo de escenario con el Tab sobre de **Deportes** activado:
-
-![AppSondeos2](imagen2.jpg)
-
-imagen\_2
-
-En este ejemplo necesitarás los siguientes componentes: etiquetas ( **Labels** ), un campo de texto para la profesión (TextField), para el número de hermanos incluirás una **ChoiceBox** que contendrán los valores: &quot;Ninguno&quot;, &quot;Uno&quot;, &quot;Dos&quot;, &quot;Más de dos&quot;, para la edad otra **ChoiceBox** en la que se deberá elegir entre: &quot;Menos de 15&quot;, &quot;Entre 15 y 18&quot;, &quot;Entre 19 y 35&quot;, &quot;Entre 36 y 60&quot;, &quot;Más de 60&quot;, un **RadioButtons** para el sexo, una **CheckBox** para preguntar al usuario si le gusta el deporte, una **ChoiceBox** para los deportes (Tenis, Fútbol, Balonmano, Atletismo y Natación), para las aficiones tres deslizadores, Sliders. Por último un Button para enviar la encuesta.
-
-En cuanto al comportamiento de los **Sliders** deberá mostrar en la etiqueta de la derecha el valor correspondiente a la posición seleccionada entre 1 y 10 a medida que el usuario lo desliza. El manejador de selector de sexo, **Toggle** , que mostrará la imagen correspondiente al sexo seleccionado. El manejador de eventos del botón &quot;Enviar&quot; que validará que todos los campos estén rellenos, enviará el mensaje de error correspondiente si alguno de los campos no está relleno y por el contrario el mensaje &quot;Encuesta enviada con éxito&quot; cuando todo vaya bien. En este último caso **se grabará** la información de la encuesta en un **fichero** llamado **Enc\_Deporte.csv** , **Enc\_Comidas.csv** , etc., con la fecha y hora del sistema y todos los datos introducidos en una línea. Cada campo de la línea se separará por &quot;;&quot;.
-
-Se deberá establecer una relación **modal** de aplicación en el que el Stage principal, el menú, abra el Stage de realizar encuestas. Por lo que no se podrá cerrar la aplicación hasta realizadas las encuestas y se cierre la ventana de las encuestas abierta inicialmente.
+|-Mario Gallego González|
+| :- |
+|-Antonio Gómez Rodrigo|
+|-Raúl Plaza Gálvez|
 
 
+**Diseño y Arquitectura de la aplicación:**
+
+`	`-SplashScreen para añadir una pantalla de carga.
+
+-Establecer diseño para todas las encuestas con un css común e icono para la app.
+
+`	`-Background igual para todas las ventanas, fondo logo del equipo
+
+`	`-Tamaño predeterminado de la ventana de la aplicación (800x900).
+
+**Funcionamiento:**
+
+`	`-***Fichero csv***: se creará un fichero csv de la encuesta realizada en la
+
+ruta Documents del usuario, dentro de un directorio creado llamado
+
+Encuestas.
+
+-***Página de bienvenida*** con introducción del nombre del usuario y selección de primera encuesta a realizar, guardando dicho nombre en la variable (**String nameUser**) para preguntar al usuario en las encuestas posteriores por su nombre.
+
+
+
+-***Página de encuesta*** creada con un TabPane que dividirá las distintas secciones en Tabs. Al final de cada Tab existen dos botones: uno para cancelar la encuesta y se vacía el fichero.
+
+-***Deportes***: Radiobuttons acerca del género, pregunta sobre la edad usando el nombre guardado del usuario. ChoiceBox preguntando a qué se dedica el usuario y en función de la selección aparece un TextField con un label u otro. Slider para responder a ¿Cuanto te gusta el deporte? Seleccionando del 1 al 10. Por último tres preguntas de RadioButton de si o no, sobre si considera el ajedrez un deporte, si le gustan los deportes de raqueta y si considera MotoGp y F1 un deporte.
+
+-***Viajes***: Preguntar  ¿Ha viajado en los últimos dos años?, respuesta en RadioButton(si , no) , Preguntar ¿Tiene previsto viajar próximamente? RadioButton (Si o no), ¿Cuantos días de promedio duran sus viajes? ComboBox ( entre 2 a 3 días , entre 4 a 7 días, entre 1 y 2 semanas, más de 2 semanas.) , Precio qué decide gastar en el viaje TextField .
+
+Seleccionar el continente al que le gustaría viajar con ComboBox.
+
+-***Lectura***: ChoiceBox que pregunta la frecuencia con la que lee a la semana, siendo “Ninguna vez” por defecto, si se selecciona un valor que no es por defecto aparece un choicebox sobre el tipo de lectura que le gusta, si está vacío se registrará como “otro” tipo de lectura. TextField que preguntará por el título favorito de las obras que ha leído. Un TextField qu pregunta por su autor favorito,y otro TextField que preguntará cuántas obras se ha leído. Finalmente un ChoiceBox que preguntará cómo cogió interés por el mundo de la lectura, cuyo valor por defecto será “Nunca he estado interesado”.
+
+-***Comida***: Dos RadioButtons que contestará si al usuario le gusta la comida. Un ChoiceBox que elija el tipo de comida que le guste el usuario (fruta,verdura,carne,...). Un TextField donde pregunte cuál es su comida favorita. Dos RadioButtons que contestarán si el usuario mantiene una dieta equilibrada. Un ChoiceBox que pregunte la forma en la que come el usuario(mucho, poco, normal…). Dos RadioButtons que pregunten si es intolerante a algún nutriente o alimento, como la lactosa. En caso de que la respuesta sea sí aparecerá un TextField donde indique a qué nutrientes/alimentos es intolerante.
+
+-***Animales***:Preguntara por el animal(perro, gato, leon…), un radiobutton para indicar el sexo del animal con una foto del tipo de sexo,un list view donde aparezca todos los tipos de animales (vertebrados, invertebrados…). Una pregunta sobre si su animal es venenoso usando un label y un checkBox, sliders para indicar del uno al diez el peligro del animal, slider para indicar del uno al diez el peligro de extinción de ese animal.
 
 
