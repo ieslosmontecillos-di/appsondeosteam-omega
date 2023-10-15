@@ -49,7 +49,7 @@ public class Animales extends Tab {
 
 
     // Botón para enviar la encuesta
-    private final Button btnEnviar = new Button("Enviar encuesta");
+    private final Button btnEnviar = new Button("Enviar");
 
 
     public Animales(){makeGUI();}
@@ -149,6 +149,8 @@ public class Animales extends Tab {
         // Tab
         setText("Animales");
         setClosable(false);
+
+
     }
 
     public void setCsvEncuesta(FileWriter csvEnc){

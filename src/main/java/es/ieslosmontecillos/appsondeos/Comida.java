@@ -105,39 +105,39 @@ public class Comida extends Tab {
 
         // Preguntas
         // 1
-        root.add(preguntaC, 0, 0);
-        root.add(siComer, 1, 0);
-        root.add(noComer, 2, 0);
+        root.add(preguntaC, 0, 2);
+        root.add(siComer, 1, 2);
+        root.add(noComer, 2, 2);
 
         // 2
-        root.add(preguntaTC, 0, 1);
-        root.add(tipoComida, 1, 1);
+        root.add(preguntaTC, 0, 6);
+        root.add(tipoComida, 1, 6);
 
         // 3
-        root.add(preguntaCF, 0, 2);
-        root.add(comidaFavorita, 1, 2);
+        root.add(preguntaCF, 0, 12);
+        root.add(comidaFavorita, 1, 12);
 
         // 4
-        root.add(preguntaDE, 0, 3);
-        root.add(siDieta, 1, 3);
-        root.add(noDieta, 2, 3);
+        root.add(preguntaDE, 0, 18);
+        root.add(siDieta, 1, 18);
+        root.add(noDieta, 2, 18);
 
         // 5
-        root.add(preguntaCC, 0, 4);
-        root.add(cantidadComida, 1, 4);
+        root.add(preguntaCC, 0, 24);
+        root.add(cantidadComida, 1, 24);
 
         // 6
-        root.add(preguntaIntolerancia, 0, 5);
-        root.add(intolerancia, 1, 5);
-        root.add(tolerancia, 2, 5);
+        root.add(preguntaIntolerancia, 0, 30);
+        root.add(intolerancia, 1, 30);
+        root.add(tolerancia, 2, 30);
 
         // 7
-        root.add(intoleranciaConcreta, 0, 6);
-        root.add(intolerante, 1, 6);
+        root.add(intoleranciaConcreta, 0, 36);
+        root.add(intolerante, 1, 36);
 
 
         // Botón
-        root.add(enviarEncuesta, 1, 7);
+        root.add(enviarEncuesta, 1, 38);
     }
 
     private void eventos() {

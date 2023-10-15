@@ -83,24 +83,24 @@ public class Lectura extends Tab {
         root.add(interesLectura, 3, 1);
 
         // 2
-        root.add(preguntaTL, 1, 2);
-        root.add(tipoLectura, 3, 2);
+        root.add(preguntaTL, 1, 7);
+        root.add(tipoLectura, 3, 7);
 
         // 3
-        root.add(preguntaFL, 1, 3);
-        root.add(frecuenciaLectura, 3, 3);
+        root.add(preguntaFL, 1, 13);
+        root.add(frecuenciaLectura, 3, 13);
 
         // 4
-        root.add(preguntaTF, 1, 4);
-        root.add(tituloFavorito, 3, 4);
+        root.add(preguntaTF, 1, 19);
+        root.add(tituloFavorito, 3, 19);
 
         // 5
-        root.add(preguntaNO, 1, 5);
-        root.add(numObras, 3, 5);
+        root.add(preguntaNO, 1, 25);
+        root.add(numObras, 3, 25);
 
 
         // Botón enviar encuesta
-        root.add(enviarEncuesta, 3, 6);
+        root.add(enviarEncuesta, 3, 28);
     }
 
     private void eventos() {

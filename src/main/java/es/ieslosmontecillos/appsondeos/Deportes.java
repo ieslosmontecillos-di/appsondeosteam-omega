@@ -70,7 +70,7 @@ public class Deportes extends Tab {
     private final ToggleGroup respuesta3 = new ToggleGroup();
 
     // Botón de enviar encuesta
-    private final Button envCuest = new Button("Enviar cuestionario");
+    private final Button envCuest = new Button("Enviar");
 
 
     // Constructor

@@ -46,7 +46,7 @@ public class Viajes extends Tab {
 
 
     // Botón para enviar la encuesta
-    private final Button btnEnviar = new Button("Enviar encuesta");
+    private final Button btnEnviar = new Button("Enviar");
 
 
     // Constructor

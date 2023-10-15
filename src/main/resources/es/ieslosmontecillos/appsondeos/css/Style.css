@@ -42,7 +42,7 @@
 }
 
 .button:hover {
-    -fx-background-color: #a7a7a7;
+    -fx-background-color: #005596;
     -fx-cursor: hand;
 }
 
@@ -71,13 +71,24 @@
 .tab {
     -fx-text-fill: #fff;
     -fx-font-weight: bold;
+    -fx-padding: 0 0 10 0;
+    -fx-min-height: 30;
 }
 
 /* Tab Content */
 .tab-content {
     -fx-padding: 20px;
+
 }
 
+/* Choice Box */
+.choice-box:hover{
+    -fx-cursor: hand;
+}
+
+.scene{
+    -fx-background-image: url("../img/background2.png");
+}
 /* IDs */
 #errorlbl{
     -fx-font-style: red;
