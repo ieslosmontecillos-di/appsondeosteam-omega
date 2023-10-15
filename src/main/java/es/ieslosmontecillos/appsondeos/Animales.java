@@ -1,49 +1,25 @@
 package es.ieslosmontecillos.appsondeos;
 
 import javafx.application.Application;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import java.io.FileWriter;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Animales extends Application {
-    public void start(Stage primaryStage) {
-        String nameUser = "Raul";
-        TabPane tabPane = new TabPane();
-
-        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-
-        Tab tab1 = new Tab("Main");
-        Tab tab2 = new Tab("Deportes");
-        Tab tab3 = new Tab("Viajes");
-        Tab tab4 = new Tab("Lectura");
-        Tab tab5 = new Tab("Comida");
-        Tab tab6 = new Tab("Animales");
-
-        tabPane.getTabs().add(tab1);
-        tabPane.getTabs().add(tab2);
-        tabPane.getTabs().add(tab3);
-        tabPane.getTabs().add(tab4);
-        tabPane.getTabs().add(tab5);
-        tabPane.getTabs().add(tab6);
-
-
-        VBox vBox = new VBox(tabPane);
+    public void start(Stage stage) {
 //
         GridPane gridPane = new GridPane();
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
+        gridPane.setHgap(28);
+        gridPane.setVgap(25);
         gridPane.setPadding(new Insets(0,10, 0, 10));
 
         //Animal
@@ -54,7 +30,7 @@ public class Animales extends Application {
 
         //Sexo del animal
         final ToggleGroup sexo = new ToggleGroup();
-        Label lblsexo = new Label("Sellecione sexo");
+        Label lblsexo = new Label("Seleccione sexo");
         RadioButton rbmacho = new RadioButton();
         rbmacho.setText("MACHO");
         rbmacho.setToggleGroup(sexo);
@@ -91,41 +67,41 @@ public class Animales extends Application {
         gridPane.add(rbvenenoNo, 5, 7);
 
         //Slider peligro del animal
-        Label lblpeligro = new Label("Peligroso");
-        Slider slpeligro = new Slider();
-        slpeligro.setMin(0);
-        slpeligro.setMax(10);
-        slpeligro.setValue(5);
-        slpeligro.setShowTickLabels(true);
-        slpeligro.setShowTickMarks(true);
-        slpeligro.setMajorTickUnit(5);
-        slpeligro.setMinorTickCount(5);
-        gridPane.add(lblpeligro,3,9);
-        gridPane.add(slpeligro, 4,9);
+        Label lblPeligro = new Label("Peligrosidad");
+        Slider slPeligro = new Slider();
+        slPeligro.setMin(0);
+        slPeligro.setMax(10);
+        slPeligro.setValue(5);
+        slPeligro.setShowTickLabels(true);
+        slPeligro.setShowTickMarks(true);
+        slPeligro.setMajorTickUnit(5);
+        slPeligro.setMinorTickCount(5);
+        gridPane.add(lblPeligro,3,9);
+        gridPane.add(slPeligro, 4,9);
 
         //Slider peligro de extincion del animal
-        Label lblpeligroex = new Label("Peligro de extinción ");
-        Slider slpeligroex = new Slider();
-        slpeligroex.setMin(0);
-        slpeligroex.setMax(10);
-        slpeligroex.setValue(5);
-        slpeligroex.setShowTickLabels(true);
-        slpeligroex.setShowTickMarks(true);
-        slpeligroex.setMajorTickUnit(5);
-        slpeligroex.setMinorTickCount(5);
-        gridPane.add(lblpeligroex,3,11);
-        gridPane.add(slpeligroex, 4,11);
+        Label lblPeligroEx = new Label("Peligro de extinción ");
+        Slider slPeligroEx = new Slider();
+        slPeligroEx.setMin(0);
+        slPeligroEx.setMax(10);
+        slPeligroEx.setValue(5);
+        slPeligroEx.setShowTickLabels(true);
+        slPeligroEx.setShowTickMarks(true);
+        slPeligroEx.setMajorTickUnit(5);
+        slPeligroEx.setMinorTickCount(5);
+        gridPane.add(lblPeligroEx,3,11);
+        gridPane.add(slPeligroEx, 4,11);
 
         //Enviar boton
         Button btnEnviar = new Button("Enviar encuesta");
         btnEnviar.setOnAction(actionEvent -> {
             try {
                 String nombreAnimal = txtanimal.getText();
-                String seleccionaSexo = ((RadioButton) sexo.getSelectedToggle()).getText();
+                String seleccionaSexo =  sexo.getSelectedToggle() != null ? ((RadioButton) sexo.getSelectedToggle()).getText() : "";
                 String TipodeAnimal = comboBox.getValue().toString();
-                String esVenenoso = ((RadioButton) veneno.getSelectedToggle()).getText();
-                String peligroso = String.format("%.2f",slpeligro.getValue());
-                double peligrodeExtincion = slpeligroex.getValue();
+                String esVenenoso =  veneno.getSelectedToggle() != null ? ((RadioButton) veneno.getSelectedToggle()).getText() : "";
+                String peligroso = String.format("%.2f",slPeligro.getValue());
+                double peligrodeExtincion = slPeligroEx.getValue();
 
                 List<String> data = new ArrayList<>();
                 data.add(nombreAnimal);
@@ -135,38 +111,30 @@ public class Animales extends Application {
                 data.add(String.valueOf(peligroso));
                 data.add(String.valueOf(peligrodeExtincion));
 
-                FileWriter csvWriter = new FileWriter("Enc_Animales.csv", true);
-                for (String field : data) {
-                    csvWriter.append(field);
-                    csvWriter.append(",");
+                FileWriter csvEncuesta = new FileWriter("Enc_Animales.csv", true);
+                System.out.println("Encuesta enviada");
+                for (String celda : data) {
+                    csvEncuesta.append(celda);
+                    csvEncuesta.append(",");
                 }
-                csvWriter.append("\n");
-                csvWriter.flush();
-                csvWriter.close();
+                csvEncuesta.append("\n");
+                csvEncuesta.flush();
+                csvEncuesta.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
         gridPane.add(btnEnviar, 4, 13);
 
-        tab1.setContent(gridPane);
-        tab2.setContent(gridPane);
-        tab3.setContent(gridPane);
-        tab4.setContent(gridPane);
-        tab5.setContent(gridPane);
-        tab6.setContent(gridPane);
 
-        tabPane.getTabs().add(tab1);
-        tabPane.getTabs().add(tab2);
-        tabPane.getTabs().add(tab3);
-        tabPane.getTabs().add(tab4);
-        tabPane.getTabs().add(tab5);
-        tabPane.getTabs().add(tab6);
 
-        Scene scene = new Scene(gridPane ,500, 500);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Animales");
-        primaryStage.show();
+        Scene scene = new Scene(gridPane ,800, 900);
+        String cssFile = Animales.class.getResource("css/Style.css").toExternalForm();
+        scene.getStylesheets().add(cssFile);
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.setTitle("Animales");
+        stage.show();
     }
 
     public static void main(String[] args) {
