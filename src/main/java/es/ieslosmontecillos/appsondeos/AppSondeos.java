@@ -112,7 +112,6 @@ public class AppSondeos extends Application {
         // Llamada a las distintas secciones(Tabs) de las clases objeto
         Comida comida = new Comida();
         Lectura lectura = new Lectura();
-
         Deportes deporte = new Deportes();
 
 

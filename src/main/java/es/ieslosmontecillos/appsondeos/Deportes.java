@@ -36,7 +36,7 @@ public class Deportes extends Tab {
     private Label lblDeporte = new Label("¿Cuanto te gusta el deporte?");
     private Slider slDeporte = new Slider(1, 10, 5);
     private final Separator separador2 = new Separator(Orientation.HORIZONTAL);
-    private Label lblExpl = new Label("A continuacion, varias preguntas de Si o No " + nameUser);
+    private Label lblExpl = new Label("A continuacion, varias preguntas de Si o No ");
     private Label lblCHB1 = new Label("¿Consideras el ajedrez un deporte?");
     private RadioButton rbAjSi = new RadioButton("Si");
     private RadioButton rbAjNo = new RadioButton("No");

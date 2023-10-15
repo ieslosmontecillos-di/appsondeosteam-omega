@@ -1,44 +1,67 @@
-/* IDs */
+/* Estilos generales */
+* {
+    -fx-padding: 5px;
+}
 
-#iniciaEncuesta {
+/* Contenedor de la encuesta */
+.grid-pane {
+    -fx-alignment: center;
+    -fx-background-color: #fff;
+    -fx-border-radius: 10px;
+    -fx-background-image: url("../img/animales.jpeg");
+    -fx-spacing: 10px; /* Espacio uniforme entre elementos */
+}
+
+.label{
+    -fx-font-family: Arial;
+    -fx-font-weight: Bold;
     -fx-font-size: 20px;
+    -fx-text-fill: grey;
 }
 
-#errorCategoria {
-    -fx-fill: red;
-}
-
-#bienvenida {
-    -fx-text-alignment: center;
-    -fx-font-size: 50px;
-}
-
-#categorias {
-    -fx-font-size: 20px;
-}
-
-.stage {
-    -fx-border-color: red;
-}
-
-.label {
-    -fx-font-family: "Yu Gothic";
-}
-
-.root {
-    -fx-background-image: url("../img/background2.png");
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-}
-
+/* Botones */
 .button {
-    -fx-effect: dropshadow(three-pass-box, black, 10, 0, 5, 5);
+    -fx-background-color: #0078d4;
+    -fx-text-fill: #fff;
+    -fx-font-weight: bold;
+    -fx-border: none;
+    -fx-border-radius: 6px;
 }
 
 .button:hover {
+    -fx-background-color: #a7a7a7;
     -fx-cursor: hand;
 }
 
-.button:pressed {
-    -fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0);
+/* Radio Buttons */
+.radio-button {
+    -fx-padding: 5px;
+}
+
+/* ComboBox */
+.combo-box {
+    -fx-pref-width: 200px;
+}
+
+/* Sliders */
+.slider {
+    -fx-pref-width: 200px;
+}
+
+/* TabPane */
+.tab-pane {
+    -fx-background-color: #fff;
+    -fx-border-radius: 10px;
+}
+
+/* Tabs */
+.tab {
+    -fx-background-color: #0078d4;
+    -fx-text-fill: #fff;
+    -fx-font-weight: bold;
+}
+
+/* Tab Content */
+.tab-content {
+    -fx-padding: 20px;
 }
