@@ -47,6 +47,8 @@ public class AppSondeos extends Application {
 
         Label splashLabel = new Label("App Sondeos\nEquipo Omega");
 
+        splashLabel.setId("splashLabel");
+
         Scene splashScene = new Scene(splashLayout, 300, 150);
 
 

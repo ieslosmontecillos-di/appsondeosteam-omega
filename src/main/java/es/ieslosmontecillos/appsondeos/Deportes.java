@@ -49,7 +49,7 @@ public class Deportes extends Tab {
     private RadioButton rbMoSi = new RadioButton("Si");
     private RadioButton rbMoNo = new RadioButton("No");
     private final ToggleGroup respuesta3 = new ToggleGroup();
-    private Button envCuest = new Button("Enviar cuestionario");
+    private Button envCuest = new Button("Enviar");
     private Label lblAviso = new Label("Debes rellenar todos los campos");
 
     public Deportes() {
@@ -143,6 +143,8 @@ public class Deportes extends Tab {
             System.out.println("Hola");
         });
 
+        lblAviso.setId("errorlbl");
+
         setText("Deporte");
         setClosable(false);
         setContent(grid);
@@ -199,9 +201,9 @@ public class Deportes extends Tab {
         grid.add(rbMoNo, 2, 29);
 
 
-        grid.add(envCuest, 1, 45);
+        grid.add(envCuest, 1, 32);
 
-        grid.add(lblAviso, 2, 45);
+        grid.add(lblAviso, 2, 32);
     }
     private void enviaEncuesta() {
         try {

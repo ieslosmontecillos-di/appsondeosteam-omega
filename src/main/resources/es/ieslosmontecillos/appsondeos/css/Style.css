@@ -1,4 +1,16 @@
 /* Estilos generales */
+
+
+.stage {
+    -fx-border-color: red;
+}
+
+.root {
+    -fx-background-image: url("../img/background2.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
 * {
     -fx-padding: 5px;
 }
@@ -15,7 +27,7 @@
 .label{
     -fx-font-family: Arial;
     -fx-font-weight: Bold;
-    -fx-font-size: 20px;
+    -fx-font-size: 15 px;
     -fx-text-fill: grey;
 }
 
@@ -26,6 +38,7 @@
     -fx-font-weight: bold;
     -fx-border: none;
     -fx-border-radius: 6px;
+    -fx-effect: dropshadow(three-pass-box, black, 10, 0, 5, 5);
 }
 
 .button:hover {
@@ -40,12 +53,12 @@
 
 /* ComboBox */
 .combo-box {
-    -fx-pref-width: 200px;
+    -fx-pref-width: 150px;
 }
 
 /* Sliders */
 .slider {
-    -fx-pref-width: 200px;
+    -fx-pref-width: 150px;
 }
 
 /* TabPane */
@@ -56,7 +69,7 @@
 
 /* Tabs */
 .tab {
-    -fx-background-color: #0078d4;
+    -fx-background-color: #7a8d9f;
     -fx-text-fill: #fff;
     -fx-font-weight: bold;
 }
@@ -64,4 +77,25 @@
 /* Tab Content */
 .tab-content {
     -fx-padding: 20px;
+}
+
+/* IDs */
+#errorlbl{
+    -fx-font-style: red;
+}
+#iniciaEncuesta {
+    -fx-font-size: 20px;
+}
+
+#errorCategoria {
+    -fx-fill: red;
+}
+
+#bienvenida {
+    -fx-text-alignment: center;
+    -fx-font-size: 50px;
+}
+
+#categorias {
+    -fx-font-size: 20px;
 }
