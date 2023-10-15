@@ -74,7 +74,7 @@ public class Comida extends Tab {
         adicionNodos();
         eventos();
         propiedades();
-
+        
         setContent(root);
     }
 

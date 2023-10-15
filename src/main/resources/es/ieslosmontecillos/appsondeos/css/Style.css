@@ -1,18 +1,12 @@
 /* Estilos generales */
-
-
-.stage {
-    -fx-border-color: red;
-}
-
-.root {
-    -fx-background-image: url("../img/background2.png");
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-}
-
 * {
     -fx-padding: 5px;
+}
+
+.root, .tab-pane, .tab-header-area{
+    -fx-background-image: url("../img/background2.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position:center;
 }
 
 /* Contenedor de la encuesta */
@@ -20,15 +14,14 @@
     -fx-alignment: center;
     -fx-background-color: #fff;
     -fx-border-radius: 10px;
-    -fx-background-image: url("../img/animales.jpeg");
     -fx-spacing: 10px; /* Espacio uniforme entre elementos */
 }
 
 .label{
     -fx-font-family: Arial;
-    -fx-font-weight: Bold;
     -fx-font-size: 15 px;
-    -fx-text-fill: grey;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4e4e4e;
 }
 
 /* Botones */
@@ -71,14 +64,25 @@
 .tab {
     -fx-text-fill: #fff;
     -fx-font-weight: bold;
-    -fx-padding: 0 0 10 0;
     -fx-min-height: 30;
+}
+
+.tab:hover{
+    -fx-cursor: hand;
+}
+
+
+.tab .tab-label {
+    -fx-padding: 0 10 5 10; /* Relleno en la parte inferior */
+}
+
+.focus-indicator {
+    -fx-border-color: transparent;
 }
 
 /* Tab Content */
 .tab-content {
     -fx-padding: 20px;
-
 }
 
 /* Choice Box */

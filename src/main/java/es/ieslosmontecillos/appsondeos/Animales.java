@@ -4,7 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -63,6 +64,7 @@ public class Animales extends Tab {
         propiedades();
 
         setContent(root);
+
     }
 
     private void valoresChoiceBox(){
@@ -145,7 +147,6 @@ public class Animales extends Tab {
         root.setHgap(28);
         root.setVgap(25);
         root.setPadding(new Insets(0,10, 0, 10));
-
         // Tab
         setText("Animales");
         setClosable(false);

@@ -97,7 +97,6 @@ public class AppSondeos extends Application {
         // Lista que guarda los valores para el ChoiceBox
         ObservableList<String> encuestas = FXCollections.observableArrayList("Animales", "Comida", "Deporte", "Lectura", "Viajes");
 
-
         // Paneles
         // Base
         BorderPane root = new BorderPane();
@@ -119,10 +118,9 @@ public class AppSondeos extends Application {
         // Creación de la escena
         Scene scene = new Scene(root, 800, 900);
 
-
+        
         // Asigna el css en la escena
         scene.getStylesheets().add(AppSondeos.class.getResource("css/Style.css").toExternalForm());
-
 
         // Textos
         // Bienvenida
@@ -256,6 +254,7 @@ public class AppSondeos extends Application {
 
 
         // IDs CSS
+        principal.setId("main");
         txtErrorCategoriaUsuario.setId("errorCategoria");
         iniciaEncuesta.setId("iniciaEncuesta");
         txtBienvenida.setId("bienvenida");
