@@ -113,6 +113,8 @@ public class AppSondeos extends Application {
         Comida comida = new Comida();
         Lectura lectura = new Lectura();
 
+        Deportes deporte = new Deportes();
+
 
         // Creación de la escena
         Scene scene = new Scene(root, 800, 900);
@@ -155,7 +157,8 @@ public class AppSondeos extends Application {
 
 
         // Adición de las secciones(Tabs) al TabPane
-        seccionesEncuesta.getTabs().addAll(lectura, comida);
+        seccionesEncuesta.getTabs().addAll(lectura, comida, deporte);
+
 
 
         // Asigna los valores en la ChoiceBox para seleccionar las distintas encuestas
@@ -192,6 +195,8 @@ public class AppSondeos extends Application {
                     // Asigna el fichero de la encuesta a las secciones
                     comida.setCsvEncuesta(encuestaCsv);
                     lectura.setCsvEncuesta(encuestaCsv);
+                    deporte.setCsvEncuesta(encuestaCsv);
+
 
                     // Se desplaza a una encuesta distinta dependiendo de la sección
                     switch (selecEnc) {
