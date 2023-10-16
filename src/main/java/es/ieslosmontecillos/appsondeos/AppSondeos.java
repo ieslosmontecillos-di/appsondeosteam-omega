@@ -184,7 +184,8 @@ public class AppSondeos extends Application {
                 carpetaEncuestasFile.mkdirs();
 
                 // Construir la ruta completa al archivo
-                String rutaCompleta = carpetaEncuestas + File.separator + nombreUsuario + ".csv";
+
+                String rutaCompleta = carpetaEncuestas + File.separator + "Enc_" + nombreUsuario + ".csv";
 
                 try {
                     // Crea el csv en la carpeta Encuesta de

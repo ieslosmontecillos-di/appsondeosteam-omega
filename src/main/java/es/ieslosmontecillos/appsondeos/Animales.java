@@ -187,10 +187,10 @@ public class Animales extends Tab {
             String seleccionaSexo =  sexo.getSelectedToggle() != null ? ((RadioButton) sexo.getSelectedToggle()).getText() : "";
             String tipodeAnimal = tipoAnimal.getValue() != null ? tipoAnimal.getValue().toString() : "";
             String esVenenoso =  veneno.getSelectedToggle() != null ? ((RadioButton) veneno.getSelectedToggle()).getText() : "";
-            String peligroso = String.format("%.2f",slPeligro.getValue());
-            String peligrodeExtincion = String.format("%.2f",slPeligroEx.getValue());
+            String peligroso = String.valueOf(slPeligro.getValue());
+            String peligrodeExtincion = String.valueOf(slPeligroEx.getValue());
 
-            ObservableList<String> data = FXCollections.observableArrayList(nombreAnimal, seleccionaSexo, tipodeAnimal, esVenenoso, peligroso, peligroso, peligrodeExtincion);
+            ObservableList<String> data = FXCollections.observableArrayList(nombreAnimal, seleccionaSexo, tipodeAnimal, esVenenoso, peligroso, peligrodeExtincion);
 
             for (String celda : data) {
                 csvEncuesta.append(celda);
@@ -203,7 +203,6 @@ public class Animales extends Tab {
             System.out.println("Encuesta enviada");
             csvEncuesta.flush();
             csvEncuesta.close();
-            System.exit(0);
         } catch (IOException e) {
             e.printStackTrace();
         }

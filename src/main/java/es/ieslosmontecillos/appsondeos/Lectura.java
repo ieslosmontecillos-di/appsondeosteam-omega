@@ -195,7 +195,6 @@ public class Lectura extends Tab {
             System.out.println("Encuesta enviada");
             csvEncuesta.flush();
             csvEncuesta.close();
-            System.exit(0);
         } catch (IOException err) {
             err.printStackTrace();
         }

@@ -186,7 +186,6 @@ public class Viajes extends Tab {
             System.out.println("Encuesta enviada");
             csvEncuesta.flush();
             csvEncuesta.close();
-            System.exit(0);
         } catch (IOException e) {
             e.printStackTrace();
         }

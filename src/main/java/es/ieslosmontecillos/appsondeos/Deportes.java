@@ -262,7 +262,6 @@ public class Deportes extends Tab {
             System.out.println("Encuesta enviada");
             csvEncuesta.flush();
             csvEncuesta.close();
-            System.exit(0);
         } catch (IOException err) {
             System.err.println("ERROR");
         }
